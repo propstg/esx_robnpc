@@ -29,7 +29,7 @@ Citizen.CreateThread(function()
                     elseif GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, tCoords.x, tCoords.y, tCoords.z, true) >= Config.RobDistance then
                         ESX.ShowNotification(_U('target_too_far'))
                     else
-                        robNpc(targetPed, playerPed)
+                        robNpc(targetPed)
                     end
                 end
             end
@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-function robNpc(targetPed, playerPed)
+function robNpc(targetPed)
     robbedRecently = true
 
     Citizen.CreateThread(function()
