@@ -26,10 +26,10 @@ Citizen.CreateThread(function()
                         ESX.ShowNotification(_U('robbed_too_recently'))
                     elseif IsPedDeadOrDying(targetPed, true) then
                         ESX.ShowNotification(_U('target_dead'))
-                    elseif GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, tCoords.x, tCoords.y, tCoords.z, true) < Config.RobDistance then
-                        robNpc(targetPed)
-                    else
+                    elseif GetDistanceBetweenCoords(pCoords.x, pCoords.y, pCoords.z, tCoords.x, tCoords.y, tCoords.z, true) >= Config.RobDistance then
                         ESX.ShowNotification(_U('target_too_far'))
+                    else
+                        robNpc(targetPed, playerPed)
                     end
                 end
             end
@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-function robNpc(targetPed)
+function robNpc(targetPed, playerPed)
     robbedRecently = true
 
     Citizen.CreateThread(function()
@@ -47,14 +47,15 @@ function robNpc(targetPed)
             Citizen.Wait(10)
         end
 
-        TaskPlayAnim(targetPed, dict, 'handsup_standing_base', 8.0, -8, .01, 49, 0, 0, 0, 0)
+        TaskStandStill(targetPed, Config.RobAnimationSeconds * 1000)
         FreezeEntityPosition(targetPed, true)
+        TaskPlayAnim(targetPed, dict, 'handsup_standing_base', 8.0, -8, .01, 49, 0, 0, 0, 0)
         ESX.ShowNotification(_U('robbery_started'))
 
         Citizen.Wait(Config.RobAnimationSeconds * 1000)
 
-        FreezeEntityPosition(targetPed, false)
         ESX.TriggerServerCallback('esx_robnpc:giveMoney', function(amount)
+            FreezeEntityPosition(targetPed, false)
             ESX.ShowNotification(_U('robbery_completed', amount))
         end)
 
