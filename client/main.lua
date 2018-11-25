@@ -1,11 +1,19 @@
 ESX = nil
 
 local robbedRecently = false
+local inVehicle = false
 
 Citizen.CreateThread(function()
     while ESX == nil do
         TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
         Citizen.Wait(0)
+    end
+
+    if Config.PreventRobbingFromVehicle then
+        while true do
+            Citizen.Wait(500)
+            inVehicle = IsPedInAnyVehicle(PlayerPedId(), true) == 1
+        end
     end
 end)
 
@@ -22,7 +30,9 @@ Citizen.CreateThread(function()
                 local tCoords = GetEntityCoords(targetPed, true)
 
                 if DoesEntityExist(targetPed) and IsEntityAPed(targetPed) then
-                    if robbedRecently then
+                    if inVehicle then
+                        ESX.ShowNotification(_U('cannot_rob_vehicle'))
+                    elseif robbedRecently then
                         ESX.ShowNotification(_U('robbed_too_recently'))
                     elseif IsPedDeadOrDying(targetPed, true) then
                         ESX.ShowNotification(_U('target_dead'))
