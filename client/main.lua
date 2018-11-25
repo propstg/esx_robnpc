@@ -32,6 +32,8 @@ Citizen.CreateThread(function()
                 if DoesEntityExist(targetPed) and IsEntityAPed(targetPed) then
                     if inVehicle then
                         ESX.ShowNotification(_U('cannot_rob_vehicle'))
+                    elseif IsPedAPlayer(targetPed) then
+                        ESX.ShowNotification(_U('cannot_rob_player'))
                     elseif robbedRecently then
                         ESX.ShowNotification(_U('robbed_too_recently'))
                     elseif IsPedDeadOrDying(targetPed, true) then
