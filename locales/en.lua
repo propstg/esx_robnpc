@@ -5,4 +5,6 @@ Locales['en'] = {
     ['robbery_started']     = "Robbery in progress!",
     ['robbery_completed']   = "You got ~g~$%s~s~!",
     ['can_rob_again']       = "You can rob again!",
+    ['cannot_rob_vehicle']  = "You cannot rob from a vehicle!",
+    ['cannot_rob_player']   = "You cannot rob another player!",
 }
