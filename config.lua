@@ -5,6 +5,7 @@ Config.ShouldWaitBetweenRobbing = true
 Config.MinWaitSeconds = 60
 Config.MaxWaitSeconds = 180 
 
+Config.PreventRobbingFromVehicle = false
 Config.RobDistance = 3
 Config.RobAnimationSeconds = 10
 
